@@ -6,28 +6,28 @@ CREATE SCHEMA IF NOT EXISTS documentos;
 CREATE SCHEMA IF NOT EXISTS contabilidad;
 
 -- Tabla de tipos de clientes: mayoristas, minoristas, frecuencia, etc.
-CREATE TABLE configuracion.TiposCliente (
+CREATE TABLE IF NOT EXISTS configuracion.TiposCliente (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,  -- Ej: "Mayorista", "Final", "VIP"
     descripcion TEXT
 );
 
 -- Condiciones de pago: Crédito 30 días, Contado, etc.
-CREATE TABLE configuracion.CondicionesPago (
+CREATE TABLE IF NOT EXISTS configuracion.CondicionesPago (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,  -- Ej: "Crédito 30 días", "Contado"
     descripcion TEXT
 );
 
 -- Tipos de identificación fiscal del RIF (Venezolano)
-CREATE TABLE configuracion.TiposIdentificacion (
+CREATE TABLE IF NOT EXISTS configuracion.TiposIdentificacion (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(5) NOT NULL UNIQUE,     -- V, E, J, G, P
     descripcion TEXT                       -- Ej: "Persona Jurídica"
 );
 
 -- Entidades: clientes, proveedores, empleados, bancos, etc.
-CREATE TABLE configuracion.Entidades (
+CREATE TABLE IF NOT EXISTS configuracion.Entidades (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(150) NOT NULL,          -- Razón social o nombre
     apellido VARCHAR(150),                 -- Solo para personas naturales
@@ -41,7 +41,7 @@ CREATE TABLE configuracion.Entidades (
 );
 
 -- Relación 1:1 Cliente → Entidad
-CREATE TABLE configuracion.Clientes (
+CREATE TABLE IF NOT EXISTS configuracion.Clientes (
     id SERIAL PRIMARY KEY,
     id_entidad INT UNIQUE REFERENCES configuracion.Entidades(id),
     id_tipo INT REFERENCES configuracion.TiposCliente(id),
@@ -49,14 +49,14 @@ CREATE TABLE configuracion.Clientes (
 );
 
 -- Proveedores también son Entidades (1:1)
-CREATE TABLE configuracion.Proveedores (
+CREATE TABLE IF NOT EXISTS configuracion.Proveedores (
     id SERIAL PRIMARY KEY,
     id_entidad INT UNIQUE REFERENCES configuracion.Entidades(id),
     id_condicion_pago INT REFERENCES configuracion.CondicionesPago(id)
 );
 
 -- Contactos adicionales de la entidad (dirección de envío, facturación)
-CREATE TABLE configuracion.EntidadContactos (
+CREATE TABLE IF NOT EXISTS configuracion.EntidadContactos (
     id SERIAL PRIMARY KEY,
     id_entidad INT REFERENCES configuracion.Entidades(id),
     nombre VARCHAR(150),
@@ -68,7 +68,7 @@ CREATE TABLE configuracion.EntidadContactos (
 );
 
 -- Módulos del sistema: Ventas, Compras, Inventario, Contabilidad...
-CREATE TABLE seguridad.Modulos (
+CREATE TABLE IF NOT EXISTS seguridad.Modulos (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,   -- Ej: 'Ventas'
     descripcion TEXT,
@@ -76,14 +76,14 @@ CREATE TABLE seguridad.Modulos (
 );
 
 -- Roles: Administrador, Facturador, Caja, Inventario...
-CREATE TABLE seguridad.Roles (
+CREATE TABLE IF NOT EXISTS seguridad.Roles (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,
     descripcion TEXT
 );
 
 -- Permisos por módulo: leer, crear, anular, editar...
-CREATE TABLE seguridad.RolesPermisos (
+CREATE TABLE IF NOT EXISTS seguridad.RolesPermisos (
     id SERIAL PRIMARY KEY,
     id_rol INT REFERENCES seguridad.Roles(id),
     id_modulo INT REFERENCES seguridad.Modulos(id),
@@ -91,7 +91,7 @@ CREATE TABLE seguridad.RolesPermisos (
 );
 
 -- Usuarios del sistema
-CREATE TABLE seguridad.Usuarios (
+CREATE TABLE IF NOT EXISTS seguridad.Usuarios (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100),
     usuario VARCHAR(100) NOT NULL UNIQUE,
@@ -104,26 +104,26 @@ CREATE TABLE seguridad.Usuarios (
 
 
 -- Departamentos generales: Alimentos, Ferretería...
-CREATE TABLE productos.Departamentos (
+CREATE TABLE IF NOT EXISTS productos.Departamentos (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,
     descripcion TEXT
 );
 
-CREATE TABLE productos.Categorias (
+CREATE TABLE IF NOT EXISTS productos.Categorias (
     id SERIAL PRIMARY KEY,
     id_departamento INT REFERENCES productos.Departamentos(id),
     nombre VARCHAR(100) NOT NULL,       -- Ej: "Bebidas", "Harinas"
     descripcion TEXT
 );
 
-CREATE TABLE productos.Marcas (
+CREATE TABLE IF NOT EXISTS productos.Marcas (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE, -- Ej: "Polar", "Mavesa"
     descripcion TEXT
 );
 
-CREATE TABLE productos.UnidadesMedida (
+CREATE TABLE IF NOT EXISTS productos.UnidadesMedida (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL UNIQUE, -- Ej: Unidad, Litro
     abreviacion VARCHAR(10),            -- Ej: "UND", "L"
@@ -131,7 +131,7 @@ CREATE TABLE productos.UnidadesMedida (
 );
 
 -- Productos
-CREATE TABLE productos.Productos (
+CREATE TABLE IF NOT EXISTS productos.Productos (
     id SERIAL PRIMARY KEY,
     id_categoria INT REFERENCES productos.Categorias(id),
     id_marca INT REFERENCES productos.Marcas(id),
@@ -140,14 +140,14 @@ CREATE TABLE productos.Productos (
     descripcion TEXT
 );
 
-CREATE TABLE productos.Bodegas (
+CREATE TABLE IF NOT EXISTS productos.Bodegas (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE, -- Ej: "Depósito Principal"
     ubicacion TEXT
 );
 
 -- Stock por bodega
-CREATE TABLE productos.Inventario (
+CREATE TABLE IF NOT EXISTS productos.Inventario (
     id SERIAL PRIMARY KEY,
     id_producto INT REFERENCES productos.Productos(id),
     id_bodega INT REFERENCES productos.Bodegas(id),
@@ -160,7 +160,7 @@ CREATE UNIQUE INDEX ux_inventario_producto_bodega
     ON productos.Inventario (id_producto, id_bodega);
 
 -- Movimientos de inventario (entrada, salida, ajuste)
-CREATE TABLE productos.MovimientosInventario (
+CREATE TABLE IF NOT EXISTS productos.MovimientosInventario (
     id SERIAL PRIMARY KEY,
     id_producto INT REFERENCES productos.Productos(id),
     id_bodega INT REFERENCES productos.Bodegas(id),
@@ -172,13 +172,13 @@ CREATE TABLE productos.MovimientosInventario (
     motivo TEXT                            -- Ej: "Ajuste por auditoría"
 );
 
-CREATE TABLE precios.ListasPrecios (
+CREATE TABLE IF NOT EXISTS precios.ListasPrecios (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100),  -- Ej: "General", "Mayorista"
     descripcion TEXT
 );
 
-CREATE TABLE precios.PreciosProductos (
+CREATE TABLE IF NOT EXISTS precios.PreciosProductos (
     id SERIAL PRIMARY KEY,
     id_producto INT REFERENCES productos.Productos(id),
     id_lista INT REFERENCES precios.ListasPrecios(id),
@@ -191,7 +191,7 @@ CREATE TABLE precios.PreciosProductos (
 CREATE INDEX ix_precios_producto_lista_fechas
     ON precios.PreciosProductos (id_producto, id_lista, fecha_inicio, fecha_fin);
 
-CREATE TABLE precios.Monedas (
+CREATE TABLE IF NOT EXISTS precios.Monedas (
     id SERIAL PRIMARY KEY,
     codigo VARCHAR(10) NOT NULL UNIQUE,  -- "USD", "VES"
     nombre VARCHAR(50) NOT NULL,
@@ -199,7 +199,7 @@ CREATE TABLE precios.Monedas (
     activo BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE precios.TasasCambio (
+CREATE TABLE IF NOT EXISTS precios.TasasCambio (
     id SERIAL PRIMARY KEY,
     id_moneda INT REFERENCES precios.Monedas(id),
     cambio DECIMAL(10,4),                   -- Ej: 36.25
@@ -209,14 +209,14 @@ CREATE TABLE precios.TasasCambio (
 
 
 -- Tipos de documentos fiscales
-CREATE TABLE documentos.TiposDocumento (
+CREATE TABLE IF NOT EXISTS documentos.TiposDocumento (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL UNIQUE,   -- "Factura", "Nota Crédito", "Compra"
     descripcion TEXT
 );
 
 -- Series o folios
-CREATE TABLE documentos.SeriesDocumentos (
+CREATE TABLE IF NOT EXISTS documentos.SeriesDocumentos (
     id SERIAL PRIMARY KEY,
     codigo VARCHAR(20) NOT NULL UNIQUE,   -- Ej: "F001"
     descripcion TEXT,
@@ -227,7 +227,7 @@ CREATE TABLE documentos.SeriesDocumentos (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE documentos.MetodosPago (
+CREATE TABLE IF NOT EXISTS documentos.MetodosPago (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,  -- "Transferencia", "Efectivo", "Pago Móvil"
     descripcion TEXT,
@@ -238,7 +238,7 @@ CREATE TABLE documentos.MetodosPago (
 --        VENTAS
 -----------------------------
 
-CREATE TABLE documentos.Ventas (
+CREATE TABLE IF NOT EXISTS documentos.Ventas (
     id SERIAL PRIMARY KEY,
     serie_id INT REFERENCES documentos.SeriesDocumentos(id),
     numero_secuencia INT,                 -- Correlativo interno
@@ -260,7 +260,7 @@ CREATE INDEX ix_ventas_numero_documento
     ON documentos.Ventas (numero_documento);
 
 -- Detalle de la venta
-CREATE TABLE documentos.DetalleVenta (
+CREATE TABLE IF NOT EXISTS documentos.DetalleVenta (
     id SERIAL PRIMARY KEY,
     id_venta INT REFERENCES documentos.Ventas(id),
     id_producto INT REFERENCES productos.Productos(id),
@@ -274,7 +274,7 @@ CREATE TABLE documentos.DetalleVenta (
 --        COMPRAS
 -----------------------------
 
-CREATE TABLE documentos.Compras (
+CREATE TABLE IF NOT EXISTS documentos.Compras (
     id SERIAL PRIMARY KEY,
     serie_id INT REFERENCES documentos.SeriesDocumentos(id),
     numero_secuencia INT,
@@ -295,7 +295,7 @@ CREATE TABLE documentos.Compras (
 CREATE INDEX ix_compras_numero_documento
     ON documentos.Compras (numero_documento);
 
-CREATE TABLE documentos.DetalleCompra (
+CREATE TABLE IF NOT EXISTS documentos.DetalleCompra (
     id SERIAL PRIMARY KEY,
     id_compra INT REFERENCES documentos.Compras(id),
     id_producto INT REFERENCES productos.Productos(id),
@@ -309,7 +309,7 @@ CREATE TABLE documentos.DetalleCompra (
 --      PAGOS Y COBROS
 -----------------------------
 
-CREATE TABLE documentos.Pagos (
+CREATE TABLE IF NOT EXISTS documentos.Pagos (
     id SERIAL PRIMARY KEY,
     fecha_pago TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_entidad INT REFERENCES configuracion.Entidades(id), -- Cliente o proveedor
@@ -325,7 +325,7 @@ CREATE INDEX ix_pagos_entidad_fecha
     ON documentos.Pagos (id_entidad, fecha_pago);
 
 -- Aplicación del pago a ventas o compras
-CREATE TABLE documentos.PagoAplicaciones (
+CREATE TABLE IF NOT EXISTS documentos.PagoAplicaciones (
     id SERIAL PRIMARY KEY,
     id_pago INT REFERENCES documentos.Pagos(id),
     origen_tipo VARCHAR(20),           -- "venta" o "compra"
@@ -336,7 +336,7 @@ CREATE TABLE documentos.PagoAplicaciones (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE contabilidad.CuentasContables (
+CREATE TABLE IF NOT EXISTS contabilidad.CuentasContables (
     id SERIAL PRIMARY KEY,
     codigo VARCHAR(50) NOT NULL UNIQUE,   -- "1105", "4101"
     nombre VARCHAR(200) NOT NULL,
@@ -345,7 +345,7 @@ CREATE TABLE contabilidad.CuentasContables (
     activo BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE contabilidad.Asientos (
+CREATE TABLE IF NOT EXISTS contabilidad.Asientos (
     id SERIAL PRIMARY KEY,
     numero VARCHAR(50) NOT NULL UNIQUE,   -- Ej: "JV-000015"
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -357,7 +357,7 @@ CREATE TABLE contabilidad.Asientos (
     aprobado BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE contabilidad.AsientoLineas (
+CREATE TABLE IF NOT EXISTS contabilidad.AsientoLineas (
     id SERIAL PRIMARY KEY,
     id_asiento INT REFERENCES contabilidad.Asientos(id),
     id_cuenta INT REFERENCES contabilidad.CuentasContables(id),
@@ -367,7 +367,7 @@ CREATE TABLE contabilidad.AsientoLineas (
     descripcion TEXT
 );
 
-CREATE TABLE contabilidad.Impuestos (
+CREATE TABLE IF NOT EXISTS contabilidad.Impuestos (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100),             -- IVA, Retención IVA...
     porcentaje DECIMAL(8,4),
@@ -375,7 +375,7 @@ CREATE TABLE contabilidad.Impuestos (
     activo BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE contabilidad.DetalleVentaImpuestos (
+CREATE TABLE IF NOT EXISTS contabilidad.DetalleVentaImpuestos (
     id SERIAL PRIMARY KEY,
     id_detalle_venta INT REFERENCES documentos.DetalleVenta(id),
     id_impuesto INT REFERENCES contabilidad.Impuestos(id),
