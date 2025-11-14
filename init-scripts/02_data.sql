@@ -4,8 +4,8 @@
 
 -- Tipos de Cliente
 INSERT INTO configuracion.TiposCliente (nombre, descripcion) VALUES
-('Corporativo', 'Cliente empresa'),
-('Individual', 'Cliente persona natural');
+('Corporativo', 'Cliente empresa (J, G)'),
+('Individual', 'Cliente persona natural (V, E, P)');
 
 -- Condiciones de Pago
 INSERT INTO configuracion.CondicionesPago (nombre, descripcion) VALUES
@@ -15,9 +15,12 @@ INSERT INTO configuracion.CondicionesPago (nombre, descripcion) VALUES
 
 -- Tipos de Identificación
 INSERT INTO configuracion.TiposIdentificacion (nombre, descripcion) VALUES
-('PA', 'Número de Libreta'),
-('CI', 'Cédula de Identidad'),
-('RIF', 'Registro de Información Fiscal');
+('V', 'Persona natural venezolana'),
+('E', 'Persona natural extranjera'),
+('J', 'Persona jurídica'),
+('G', 'Entidad gubernamental'),
+('P', 'Pasaporte');
+
 
 -- =========================================================
 -- DATOS INICIALES DE PRODUCTOS
@@ -45,10 +48,10 @@ INSERT INTO productos.Marcas (nombre, descripcion) VALUES
 
 -- Unidades de Medida
 INSERT INTO productos.UnidadesMedida (nombre, abreviacion) VALUES
-('Unidad', 'und'),
+('Unidad', 'UND'),
 ('Litro', 'L'),
-('Mililitro', 'ml'),
-('Kilogramo', 'kg');
+('Mililitro', 'ML'),
+('Kilogramo', 'KG');
 
 -- Bodegas
 INSERT INTO productos.Bodegas (nombre, ubicacion) VALUES
@@ -62,19 +65,19 @@ INSERT INTO productos.Bodegas (nombre, ubicacion) VALUES
 
 -- Listas de Precios
 INSERT INTO precios.ListasPrecios (nombre, descripcion) VALUES
-('General', 'Lista de precios estándar'),
-('Mayorista', 'Lista de precios para ventas al por mayor');
+('General', 'Lista estándar'),
+('Mayorista', 'Precios por volumen');
 
 -- Monedas
 INSERT INTO precios.Monedas (codigo, nombre, simbolo) VALUES
 ('USD', 'Dólar Estadounidense', '$'),
-('EUR', 'Euro', '€'),
-('VES', 'Bolívar Venezolano', 'Bs.');
+('VES', 'Bolívar Venezolano', 'Bs'),
+('EUR', 'Euro', '€'); 
 
 INSERT INTO precios.TasasCambio (id_moneda, cambio) VALUES
-(1, 1.0000), -- USD base
-(2, 1.1000), -- EUR
-(3, 235); -- VES
+(1, 1.0000),   
+(3, 1.1000),   
+(2, 36.50);    
 
 -- =========================================================
 -- DATOS INICIALES DE SEGURIDAD
@@ -82,9 +85,9 @@ INSERT INTO precios.TasasCambio (id_moneda, cambio) VALUES
 
 -- Roles
 INSERT INTO seguridad.Roles (nombre, descripcion) VALUES
-('Administrador', 'Acceso total al sistema'),
+('Administrador', 'Acceso total'),
 ('Vendedor', 'Acceso al módulo de ventas'),
-('Contador', 'Acceso al módulo contable');
+('Contador', 'Acceso contable');
 
 -- Módulos
 INSERT INTO seguridad.Modulos (nombre, descripcion) VALUES
@@ -98,19 +101,20 @@ INSERT INTO seguridad.Usuarios (nombre, usuario, contraseña, id_rol, estado) VA
 ('Usuario Ventas', 'ventas', 'ventas', 2, 'activo'),
 ('Usuario Contador', 'contador', 'contador', 3, 'activo');
 
--- Permisos básicos
+-- ADMIN → FULL ACCESS
 INSERT INTO seguridad.RolesPermisos (id_rol, id_modulo, permiso) VALUES
--- Admin con acceso total
-(1, 1, 'ver'), (1, 1, 'crear'), (1, 1, 'editar'), (1, 1, 'eliminar'), -- Ventas
-(1, 2, 'ver'), (1, 2, 'crear'), (1, 2, 'editar'), (1, 2, 'eliminar'), -- Inventario
-(1, 3, 'ver'), (1, 3, 'crear'), (1, 3, 'editar'), (1, 3, 'eliminar'), -- Contabilidad
+(1, 1, 'ver'), (1, 1, 'crear'), (1, 1, 'editar'), (1, 1, 'eliminar'),
+(1, 2, 'ver'), (1, 2, 'crear'), (1, 2, 'editar'), (1, 2, 'eliminar'),
+(1, 3, 'ver'), (1, 3, 'crear'), (1, 3, 'editar'), (1, 3, 'eliminar'),
 
--- Vendedor solo en Ventas
-(2, 1, 'ver'), (2, 1, 'crear'),
+-- VENDEDOR → SOLO VENTAS (VER + CREAR)
+(2, 1, 'ver'), 
+(2, 1, 'crear'),
 
--- Contador solo en Contabilidad
-(3, 3, 'ver'), (3, 3, 'editar');
-                   -- Contador en Contabilidad
+-- CONTADOR → SOLO CONTABILIDAD
+(3, 3, 'ver'),
+(3, 3, 'editar');
+
 
 -- =========================================================
 -- DATOS INICIALES DE DOCUMENTOS
@@ -119,20 +123,26 @@ INSERT INTO seguridad.RolesPermisos (id_rol, id_modulo, permiso) VALUES
 -- Tipos de Documento
 INSERT INTO documentos.TiposDocumento (nombre, descripcion) VALUES
 ('Factura', 'Documento de venta'),
-('Nota de Crédito', 'Documento de ajuste'),
-('Orden de Compra', 'Documento de compra');
+('Nota de Crédito', 'Ajuste negativo'),
+('Nota de Débito', 'Ajuste positivo'),
+('Compra', 'Documento de compra');
+
 
 -- Series de Documentos
 INSERT INTO documentos.SeriesDocumentos (codigo, descripcion, id_tipo_documento, prefijo) VALUES
-('FAC-2025', 'Serie de facturas 2025', 1, 'FAC'),
-('NC-2025', 'Serie de notas de crédito 2025', 2, 'NC'),
-('OC-2025', 'Serie de órdenes de compra 2025', 3, 'OC');
+('F001', 'Serie de facturas fiscales', 1, 'FAC'),
+('NC01', 'Serie notas de crédito', 2, 'NC'),
+('ND01', 'Serie notas de débito', 3, 'ND'),
+('C001', 'Serie documentos de compra', 4, 'COM');
+
 
 -- Métodos de Pago
 INSERT INTO documentos.MetodosPago (nombre, descripcion) VALUES
 ('Efectivo', 'Pago en efectivo'),
-('Transferencia', 'Pago por transferencia bancaria'),
-('Tarjeta', 'Pago con tarjeta de crédito/débito');
+('Transferencia', 'Transferencia bancaria'),
+('Pago Móvil', 'Pago móvil'),
+('Tarjeta', 'Tarjeta de débito/crédito');
+
 
 -- =========================================================
 -- DATOS INICIALES DE CONTABILIDAD
@@ -140,14 +150,17 @@ INSERT INTO documentos.MetodosPago (nombre, descripcion) VALUES
 
 -- Cuentas Contables
 INSERT INTO contabilidad.CuentasContables (codigo, nombre, tipo, descripcion) VALUES
-('1105', 'Caja', 'Activo', 'Dinero en efectivo'),
-('1110', 'Bancos', 'Activo', 'Dinero en cuentas bancarias'),
-('2105', 'Proveedores', 'Pasivo', 'Cuentas por pagar a proveedores'),
-('2205', 'Clientes', 'Activo', 'Cuentas por cobrar a clientes'),
+('1105', 'Caja', 'Activo', 'Efectivo disponible'),
+('1110', 'Bancos', 'Activo', 'Cuentas bancarias'),
+('2105', 'Proveedores', 'Pasivo', 'Cuentas por pagar'),
+('1305', 'Clientes', 'Activo', 'Cuentas por cobrar'),
 ('4105', 'Ingresos por Ventas', 'Ingreso', 'Ventas de productos'),
-('5105', 'Costo de Ventas', 'Gasto', 'Costo de los productos vendidos');
+('5105', 'Costo de Ventas', 'Gasto', 'Costo de mercancía vendida');
 
 -- Impuestos
 INSERT INTO contabilidad.Impuestos (nombre, porcentaje, aplica_en) VALUES
-('IVA', 16.0000, 'venta'),
-('Retención ISLR', 2.0000, 'compra');
+('IVA 16%', 16.00, 'venta'),
+('IVA 16% Compra', 16.00, 'compra'),
+('Retención IVA', 75.00, 'compra'),     -- 75% del IVA generalmente
+('Retención ISLR', 2.00, 'compra');
+
