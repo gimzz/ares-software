@@ -1,7 +1,6 @@
 services:
   db:
     image: postgres:15
-    restart: always
     environment:
       POSTGRES_DB: ares_software
       POSTGRES_USER: user_ares2025
@@ -10,6 +9,7 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d:Z
 
 volumes:
   db_data:
