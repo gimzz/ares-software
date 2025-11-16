@@ -54,6 +54,9 @@ public class UserDAO extends BaseDAO {
         try (Connection conn = getConnection(); // Obtiene la conexión a la base de datos
              PreparedStatement stmt = conn.prepareStatement(sql)) { // Prepara la consulta SQL
 
+            System.out.println("[DAO] findByUsername - conexión ok: " + (conn != null));
+            System.out.println("[DAO] findByUsername - SQL: " + sql + " | usuario='" + username + "'");
+
             stmt.setString(1, username); // Reemplaza el ? por el valor de username
 
             ResultSet rs = stmt.executeQuery(); // Ejecuta la consulta y obtiene el resultado
@@ -62,6 +65,7 @@ public class UserDAO extends BaseDAO {
             }
 
         } catch (Exception e) {
+            System.out.println("[DAO] findByUsername - Exception: " + e.getMessage());
             e.printStackTrace(); // Muestra errores si ocurren
         }
 
@@ -115,13 +119,19 @@ public class UserDAO extends BaseDAO {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) { // Crear Statement para consulta
 
+            System.out.println("[DAO] findAll - conexión ok: " + (conn != null));
+            System.out.println("[DAO] findAll - SQL: " + sql);
+
             ResultSet rs = stmt.executeQuery(sql); // Ejecutar consulta
 
             while (rs.next()) { // Mientras haya filas
                 usuarios.add(mapToUser(rs)); // Mapear cada fila a User y agregar a la lista
             }
 
+            System.out.println("[DAO] findAll - resultados: " + usuarios.size());
+
         } catch (Exception e) {
+            System.out.println("[DAO] findAll - Exception: " + e.getMessage());
             e.printStackTrace();
         }
 
