@@ -3,22 +3,14 @@ package com.aressoftware.model.security;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-/**
- * Modelo User
- *
- */
 public class User {
 
     private SimpleIntegerProperty id;
     private SimpleStringProperty nombre;
     private SimpleStringProperty usuario;
-    private SimpleStringProperty password;
+    private SimpleStringProperty password; // almacena el hash bcrypt
     private SimpleIntegerProperty idRol;
     private SimpleStringProperty estado;
-
-    // ============================
-    //  CONSTRUCTORES
-    // ============================
 
     public User() {
         this.id = new SimpleIntegerProperty();
@@ -33,16 +25,12 @@ public class User {
         this.id = new SimpleIntegerProperty(id);
         this.nombre = new SimpleStringProperty(nombre);
         this.usuario = new SimpleStringProperty(usuario);
-        this.password = new SimpleStringProperty(password);
+        this.password = new SimpleStringProperty(password); 
         this.idRol = new SimpleIntegerProperty(idRol);
         this.estado = new SimpleStringProperty(estado);
     }
 
-    // ============================
-    //  GETTERS / SETTERS
-    // ============================
-
-    // id
+    // Getters y Setters
     public int getId() {
         return id.get();
     }
@@ -53,7 +41,6 @@ public class User {
         return id;
     }
 
-    // nombre
     public String getNombre() {
         return nombre.get();
     }
@@ -64,7 +51,6 @@ public class User {
         return nombre;
     }
 
-    // usuario
     public String getUsuario() {
         return usuario.get();
     }
@@ -75,7 +61,6 @@ public class User {
         return usuario;
     }
 
-    // password
     public String getPassword() {
         return password.get();
     }
@@ -86,7 +71,6 @@ public class User {
         return password;
     }
 
-    // idRol
     public int getIdRol() {
         return idRol.get();
     }
@@ -97,7 +81,6 @@ public class User {
         return idRol;
     }
 
-    // estado
     public String getEstado() {
         return estado.get();
     }
@@ -107,10 +90,6 @@ public class User {
     public SimpleStringProperty estadoProperty() {
         return estado;
     }
-
-    // ============================
-    //  UTILIDADES
-    // ============================
 
     @Override
     public String toString() {
