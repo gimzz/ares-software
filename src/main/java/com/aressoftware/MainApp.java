@@ -1,17 +1,22 @@
 package com.aressoftware;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
+
     @Override
-    public void start(Stage primaryStage) {
-        StackPane root = new StackPane(new Label("Hola JavaFX con Maven y PostgreSQL!"));
-        primaryStage.setScene(new Scene(root, 400, 200));
-        primaryStage.setTitle("Ares Software");
+    public void start(Stage primaryStage) throws Exception {
+        // Cargar la vista LoginView.fxml desde resources/fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Ares Software - Login");
         primaryStage.show();
     }
 
