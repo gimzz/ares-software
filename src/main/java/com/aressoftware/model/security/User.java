@@ -20,12 +20,11 @@ public class User {
         this.idRol = new SimpleIntegerProperty();
         this.estado = new SimpleStringProperty();
     }
-
     public User(int id, String nombre, String usuario, String password, int idRol, String estado) {
         this.id = new SimpleIntegerProperty(id);
         this.nombre = new SimpleStringProperty(nombre);
         this.usuario = new SimpleStringProperty(usuario);
-        this.password = new SimpleStringProperty(password); 
+        this.password = new SimpleStringProperty(password);
         this.idRol = new SimpleIntegerProperty(idRol);
         this.estado = new SimpleStringProperty(estado);
     }
