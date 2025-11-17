@@ -8,7 +8,7 @@ public class User {
     private SimpleIntegerProperty id;
     private SimpleStringProperty nombre;
     private SimpleStringProperty usuario;
-    private SimpleStringProperty password; // almacena el hash bcrypt
+    private SimpleStringProperty password; 
     private SimpleIntegerProperty idRol;
     private SimpleStringProperty estado;
 
@@ -30,7 +30,6 @@ public class User {
         this.estado = new SimpleStringProperty(estado);
     }
 
-    // Getters y Setters
     public int getId() {
         return id.get();
     }
