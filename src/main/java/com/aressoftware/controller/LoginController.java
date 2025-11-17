@@ -2,6 +2,7 @@ package com.aressoftware.controller;
 
 import com.aressoftware.dao.UserDAO;
 import com.aressoftware.model.security.User;
+import com.aressoftware.util.PasswordUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,13 +46,7 @@ public class LoginController {
                 }
             }
 
-            // Fallback rápido para desarrollo: admin/admin
-            if ("admin".equals(username) && "admin".equals(password)) {
-                User demo = new User(0, "Administrador", "admin", "admin", 1, "activo");
-                System.out.println("[DEBUG] Login demo exitoso");
-                abrirHomeConUsuario(demo, true);
-                return;
-            }
+            // No usar fallback hardcoded: autenticar siempre contra la BD
 
             if (userDAO == null) {
                 lblMessage.setStyle("-fx-text-fill: red;");
@@ -68,7 +63,21 @@ public class LoginController {
                 return;
             }
 
-            if (!user.getPassword().equals(password)) {
+            // Verificar contraseña: soporta BCrypt (hash) o texto plano en BD
+            String stored = user.getPassword();
+            boolean passwordMatches = false;
+            if (stored != null) {
+                try {
+                    if (stored.startsWith("$2a$") || stored.startsWith("$2b$") || stored.startsWith("$2y$")) {
+                        passwordMatches = PasswordUtils.checkPassword(password, stored);
+                    } else {
+                        passwordMatches = stored.equals(password);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (!passwordMatches) {
                 lblMessage.setStyle("-fx-text-fill: red;");
                 lblMessage.setText("Contraseña incorrecta");
                 return;
