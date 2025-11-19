@@ -121,6 +121,20 @@ public class LoginController {
         // Diagnostics
         System.out.println("[INIT] LoginController.initialize - userDAO=" + (userDAO != null) + ", imageView=" + (imageView != null));
         if (lblMessage != null) lblMessage.setText("");
+
+        // Aplicar stylesheet global (app.css) cuando la Scene esté disponible
+        try {
+            String css = getClass().getResource("/css/app.css").toExternalForm();
+            if (txtUsername != null) {
+                txtUsername.sceneProperty().addListener((obs, oldScene, newScene) -> {
+                    if (newScene != null) {
+                        if (!newScene.getStylesheets().contains(css)) newScene.getStylesheets().add(css);
+                    }
+                });
+            }
+        } catch (Exception ex) {
+            // ignore if css not found
+        }
     }
 
     private void abrirHomeConUsuario(User user, boolean demo) throws Exception {
@@ -131,5 +145,12 @@ public class LoginController {
         Stage stage = (Stage) txtUsername.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Ares Software - Home" + (demo ? " (demo)" : ""));
+        // maximizar la ventana al entrar al Home
+        try {
+            stage.setMaximized(true);
+            stage.setResizable(true);
+        } catch (Exception ex) {
+            // ignore if not supported
+        }
     }
 }

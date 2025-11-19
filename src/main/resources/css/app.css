@@ -1,0 +1,162 @@
+/* Paleta (valores directos por compatibilidad con JavaFX CSS) */
+/* Colores */
+/* primary: cyan, accent: coral/red, background and nav */
+/* Use classes: .nav, .header, .btn-primary, .btn-danger */
+
+/* General */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f4f6f8;
+}
+
+/* Navigation (side/top) */
+.nav {
+    -fx-background-color: #2D3C44;
+    -fx-padding: 10px;
+}
+
+.nav .button {
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+}
+
+.btn-primary {
+    -fx-background-color: #00CCFF;
+    -fx-text-fill: #00222A;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+}
+
+.btn-danger {
+    -fx-background-color: #FF6666;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+}
+
+/* Header */
+.header {
+    -fx-background-color: linear-gradient(#ffffff, #f0f4f6);
+    -fx-padding: 10px;
+}
+
+/* Container used in HomeView to center content and limit width */
+.container {
+    -fx-alignment: center;
+    -fx-padding: 12 18;
+}
+
+/* Tables: minimalista */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header, .table-view .column-header .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #444;
+    -fx-background-color: transparent;
+}
+
+.table-view .table-row-cell {
+    -fx-padding: auto;
+    -fx-border-color: transparent transparent #eceff1 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+.table-view .table-row-cell:filled:hover {
+    -fx-background-color: #f7fcfe;
+}
+.table-view .table-row-cell:filled:selected {
+    -fx-background-color: #e8f6fb;
+}
+
+.table-action-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #00CCFF;
+    -fx-cursor: hand;
+}
+
+.table-action-button:hover {
+    -fx-underline: true;
+}
+
+/* MenuButton adjustments: make MenuButton match primary nav buttons */
+.menu-button {
+    -fx-background-radius: 6;
+    -fx-background-color: #00CCFF;
+    -fx-text-fill: #00222A;
+    -fx-font-weight: bold;
+    -fx-padding: 6 10 6 10;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+}
+
+/* Menu items in the popup */
+.menu-item {
+    -fx-padding: 6 12;
+    -fx-text-fill: #00222A;
+}
+.menu-item:hover {
+    -fx-background-color: #e6fbff;
+}
+
+/* Ensure MenuButton inside nav follows same style rules */
+.nav .menu-button {
+    -fx-background-color: #00CCFF;
+    -fx-text-fill: #00222A;
+    -fx-font-weight: bold;
+}
+
+/* Ensure the label inside the MenuButton and MenuItem uses the same text color */
+.menu-button .label, .menu-item .label {
+    -fx-text-fill: #00222A;
+}
+
+/* Login specific styles (minimalist) */
+.login-root {
+    -fx-background-color: #2D3C44; /* restored original background */
+}
+.login-box {
+    /* make the box blend with the dark background but appear as a raised panel */
+    -fx-background-color: linear-gradient(#30383c, #2b3438); /* subtle bevel */
+    -fx-padding: 26;
+    -fx-spacing: 12;
+    -fx-alignment: center;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: rgba(255,255,255,0.06) rgba(0,0,0,0.45) rgba(0,0,0,0.65) rgba(255,255,255,0.03);
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 18, 0.2, 0, 6), innerShadow(gaussian, rgba(255,255,255,0.02), 8, 0.0, 0, 1);
+}
+.login-logo {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2);
+}
+.login-title {
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+}
+.login-field {
+    -fx-background-radius: 6;
+    -fx-background-color: rgba(255,255,255,0.04); /* slightly lighter than dark background */
+    -fx-border-color: rgba(255,255,255,0.08);
+    -fx-border-width: 1;
+    -fx-padding: 8 10;
+    -fx-pref-width: 250;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255,255,255,0.55);
+    -fx-effect: innerShadow(gaussian, rgba(0,0,0,0.6), 6, 0.0, 0, 2);
+}
+.login-field:focused {
+    -fx-border-color: #00CCFF;
+    -fx-effect: innerShadow(gaussian, rgba(0,0,0,0.7), 6, 0.0, 0, 2);
+}
+.login-message {
+    -fx-text-fill: #f6a6a0;
+    -fx-font-size: 13px;
+}
