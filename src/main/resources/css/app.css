@@ -1,0 +1,202 @@
+/* ================= PALETA ================= */
+/* primary: cyan (#00CCFF), accent: coral/red (#FF6666), fondo: gris claro (#f4f6f8) */
+
+/* ================= GENERAL ================= */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f4f6f8;
+}
+
+/* ================= NAVIGATION ================= */
+.nav {
+    -fx-background-color: #2D3C44;
+    -fx-padding: 24 16;
+    -fx-background-radius: 10;
+    -fx-spacing: 12;
+    -fx-border-width: 0; /* Elimina borde lateral */
+    -fx-effect: none; /* Elimina sombra si existía */
+}
+
+.nav .button {
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-pref-width: 180;
+    -fx-padding: 8 12;
+    -fx-font-size: 13px;
+}
+
+/* Botones principales */
+.btn-primary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+    -fx-padding: 10 15;
+    -fx-background-radius: 6;
+}
+.btn-primary:hover {
+    -fx-background-color: #00CCFF;
+    -fx-text-fill: #00222A;
+}
+
+/* Botón de cerrar sesión */
+.btn-danger {
+    -fx-background-color: #FF6666;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 10 15;
+}
+.btn-danger:hover {
+    -fx-background-color: #e05555;
+}
+
+/* ================= HEADER ================= */
+.header {
+    -fx-background-color: #2D3C44;
+    -fx-padding: 16 24;
+    -fx-border-width: 0; /* Elimina línea inferior */
+    -fx-background-radius: 0 0 8 8;
+    -fx-effect: none; /* Elimina sombra si existía */
+}
+.page-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+/* ================= CONTENEDORES ================= */
+.container {
+    -fx-alignment: center;
+    -fx-padding: 20 28;
+}
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-background-color: transparent; /* Elimina fondo oscuro */
+    -fx-padding: 0 0 8 0;
+}
+.section-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+}
+.kpi-block {
+    -fx-background-color: #ffffff;
+    -fx-padding: 12;
+    -fx-spacing: 8;
+    -fx-background-radius: 8;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+}
+
+/* ================= TABLAS ================= */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-table-cell-border-color: transparent;
+    -fx-cursor: default;
+    -fx-padding: 0; /* Elimina padding que achica la tabla */
+    -fx-background-radius: 8;
+    -fx-pref-width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f0f0f0; /* Fondo claro para encabezado */
+    -fx-background-radius: 8 8 0 0;
+}
+
+.table-view .column-header,
+.table-view .column-header .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #333; /* Texto oscuro y legible */
+    -fx-font-size: 13px;
+    -fx-reorderable: false; /* Bloquea reordenamiento */
+    -fx-alignment: CENTER;
+    -fx-padding: 8;
+}
+
+.table-view .table-row-cell {
+    -fx-border-color: transparent transparent #eceff1 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 6 10;
+}
+.table-view .table-row-cell:odd {
+    -fx-background-color: #fafafa;
+}
+.table-view .table-row-cell:filled:hover {
+    -fx-background-color: #f7fcfe;
+}
+.table-view .table-row-cell:filled:selected {
+    -fx-background-color: #e8f6fb;
+}
+
+.table-cell {
+    -fx-padding: 6 8;
+    -fx-text-fill: #333;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* Botones de acción en tabla */
+.table-action-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #00CCFF;
+    -fx-cursor: hand;
+    -fx-font-size: 12px;
+}
+.table-action-button:hover {
+    -fx-underline: true;
+}
+
+/* ================= GRÁFICO ================= */
+.chart-container {
+    -fx-pref-height: 300px;
+    -fx-min-height: 300px;
+    -fx-max-height: 300px;
+}
+
+/* ================= LOGIN ================= */
+.login-root {
+    -fx-background-color: #2D3C44;
+}
+.login-box {
+    -fx-background-color: #2b3438;
+    -fx-padding: 24;
+    -fx-spacing: 10;
+    -fx-alignment: center;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: rgba(255,255,255,0.05);
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 12, 0.2, 0, 4);
+}
+.login-logo {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2);
+}
+.login-title {
+    -fx-font-size: 18px;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+}
+.login-field {
+    -fx-background-radius: 6;
+    -fx-background-color: rgba(255,255,255,0.04);
+    -fx-border-color: rgba(255,255,255,0.08);
+    -fx-border-width: 1;
+    -fx-padding: 8 10;
+    -fx-pref-width: 240;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255,255,255,0.55);
+    -fx-effect: innerShadow(gaussian, rgba(0,0,0,0.5), 6, 0.0, 0, 2);
+}
+.login-field:focused {
+    -fx-border-color: #00CCFF;
+    -fx-effect: innerShadow(gaussian, rgba(0,0,0,0.6), 6, 0.0, 0, 2);
+}
+.login-message {
+    -fx-text-fill: #f6a6a0;
+    -fx-font-size: 12px;
+}

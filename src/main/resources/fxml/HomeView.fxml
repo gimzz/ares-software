@@ -1,131 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171"
+<BorderPane fx:id="root"
+            xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.aressoftware.controller.HomeController"
-            prefWidth="1000" prefHeight="700"
-            style="-fx-background-color: #f4f6f8;">
+            prefWidth="1100" prefHeight="750"
+            styleClass="root">
 
-    <!-- Top: menu / header -->
+    <!-- Header -->
     <top>
-        <VBox>
-            <MenuBar>
-                <menus>
-                    <Menu text="Archivo">
-                        <items>
-                            <MenuItem text="Cerrar sesión" onAction="#handleLogout" />
-                            <MenuItem text="Salir" onAction="#handleExit" />
-                        </items>
-                    </Menu>
-                    <Menu text="Ver" />
-                    <Menu text="Ayuda" />
-                </menus>
-            </MenuBar>
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <padding>
-                    <Insets top="10" right="10" bottom="10" left="10" />
-                </padding>
-                <Label fx:id="lblWelcome" text="Bienvenido" style="-fx-font-size:16px; -fx-padding:4px;" />
-            </HBox>
-        </VBox>
+        <VBox fx:id="headerContainer" styleClass="header"/>
     </top>
 
-    <!-- Left: navegación -->
+    <!-- Menú lateral -->
     <left>
-        <VBox spacing="8" style="-fx-background-color: #2D3C44;" prefWidth="180">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10" />
-            </padding>
-            <children>
-                <Button text="Dashboard" mnemonicParsing="false" prefWidth="160" style="-fx-background-color:#00CCFF; -fx-font-weight:bold;" />
-                <Button text="Usuarios" mnemonicParsing="false" prefWidth="160" />
-                <Button text="Ajustes" mnemonicParsing="false" prefWidth="160" />
-                <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="btnLogout" text="Cerrar sesión" onAction="#handleLogout" prefWidth="160" style="-fx-background-color:#FF6666; -fx-text-fill:white;" />
-            </children>
-        </VBox>
+        <VBox fx:id="navContainer" styleClass="nav"/>
     </left>
 
-    <!-- Center: contenido principal (dashboard y tabs) -->
+    <!-- Área dinámica -->
     <center>
-        <TabPane>
-            <tabs>
-                <Tab text="Dashboard" closable="false">
-                    <content>
-                        <ScrollPane fitToWidth="true" fitToHeight="true">
-                            <padding>
-                                <Insets top="16" right="16" bottom="16" left="16" />
-                            </padding>
-                            <content>
-                                <VBox spacing="16">
-                                    <padding>
-                                        <Insets top="16" right="16" bottom="16" left="16" />
-                                    </padding>
-                                    <children>
-                                        <HBox spacing="20">
-                                            <children>
-                                                <PieChart fx:id="pieChartDashboard" prefWidth="400" prefHeight="250" />
-
-                                                <VBox spacing="8">
-                                                    <children>
-                                                        <Label text="KPIs" style="-fx-font-size:18px; -fx-font-weight:bold;" />
-                                                        <HBox spacing="8" alignment="CENTER_LEFT">
-                                                            <Label text="Usuarios activos:" />
-                                                            <ProgressBar progress="0.75" prefWidth="200" />
-                                                        </HBox>
-                                                        <HBox spacing="8" alignment="CENTER_LEFT">
-                                                            <Label text="Carga promedio:" />
-                                                            <ProgressBar progress="0.45" prefWidth="200" />
-                                                        </HBox>
-                                                    </children>
-                                                </VBox>
-                                            </children>
-                                        </HBox>
-
-                                        <Label text="Actividad reciente" style="-fx-font-size:16px; -fx-font-weight:bold;" />
-
-                                        <TableView fx:id="tblActivity" prefHeight="300">
-                                            <columns>
-                                                <TableColumn text="Fecha" prefWidth="150" />
-                                                <TableColumn text="Evento" prefWidth="600" />
-                                                <TableColumn text="Usuario" prefWidth="200" />
-                                            </columns>
-                                        </TableView>
-                                    </children>
-                                </VBox>
-                            </content>
-                        </ScrollPane>
-                    </content>
-                </Tab>
-
-                <Tab text="Usuarios" closable="false">
-                    <content>
-                        <VBox spacing="8">
-                            <padding>
-                                <Insets top="12" right="12" bottom="12" left="12" />
-                            </padding>
-                            <children>
-                                <Label text="Gestión de usuarios" style="-fx-font-size:16px; -fx-font-weight:bold;" />
-                                <TableView fx:id="tblUsers" prefHeight="500">
-                                    <columns>
-                                        <TableColumn text="ID" prefWidth="80" />
-                                        <TableColumn text="Nombre" prefWidth="250" />
-                                        <TableColumn text="Usuario" prefWidth="200" />
-                                        <TableColumn text="Rol" prefWidth="150" />
-                                        <TableColumn text="Estado" prefWidth="100" />
-                                    </columns>
-                                </TableView>
-                            </children>
-                        </VBox>
-                    </content>
-                </Tab>
-            </tabs>
-        </TabPane>
+        <VBox fx:id="contentContainer" styleClass="container" alignment="CENTER"/>
     </center>
-
 </BorderPane>

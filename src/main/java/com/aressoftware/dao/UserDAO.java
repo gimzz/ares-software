@@ -12,25 +12,42 @@ public class UserDAO extends BaseDAO {
 
     // Convierte un ResultSet en un objeto User
     private User mapToUser(ResultSet rs) throws SQLException {
+        String pwd = null;
+        try {
+            pwd = rs.getString("contraseña");
+        } catch (SQLException ex) {
+            // columna con tilde no disponible, intentar alternativas
+            try { pwd = rs.getString("contrasena"); } catch (SQLException ignored) { }
+            if (pwd == null) {
+                try { pwd = rs.getString("password"); } catch (SQLException ignored) { }
+            }
+        }
         return new User(
                 rs.getInt("id"),
                 rs.getString("nombre"),
                 rs.getString("usuario"),
-                rs.getString("contraseña"),
+                pwd,
                 rs.getInt("id_rol"),
                 rs.getString("estado")
         );
     }
 
-    // Busca usuario por username
+    // Busca usuario por username (normaliza y usa ILIKE para mayor tolerancia)
     public User findByUsername(String username) {
-        String sql = "SELECT * FROM seguridad.usuarios WHERE usuario = ?";
+        if (username == null) return null;
+        String param = username.trim();
+        String sql = "SELECT * FROM seguridad.usuarios WHERE TRIM(usuario) ILIKE TRIM(?)";
+        System.out.println("[DEBUG][UserDAO] Buscando usuario por username='" + param + "'");
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username);
+            stmt.setString(1, param);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return mapToUser(rs);
+                User u = mapToUser(rs);
+                System.out.println("[DEBUG][UserDAO] Usuario encontrado: " + u.getUsuario());
+                return u;
+            } else {
+                System.out.println("[DEBUG][UserDAO] No se encontró usuario '" + param + "'");
             }
         } catch (Exception e) {
             e.printStackTrace();

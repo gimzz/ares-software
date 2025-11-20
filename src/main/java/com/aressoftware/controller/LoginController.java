@@ -2,6 +2,7 @@ package com.aressoftware.controller;
 
 import com.aressoftware.dao.UserDAO;
 import com.aressoftware.model.security.User;
+import com.aressoftware.util.PasswordUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -45,13 +46,7 @@ public class LoginController {
                 }
             }
 
-            // Fallback rápido para desarrollo: admin/admin
-            if ("admin".equals(username) && "admin".equals(password)) {
-                User demo = new User(0, "Administrador", "admin", "admin", 1, "activo");
-                System.out.println("[DEBUG] Login demo exitoso");
-                abrirHomeConUsuario(demo, true);
-                return;
-            }
+            // No usar fallback hardcoded: autenticar siempre contra la BD
 
             if (userDAO == null) {
                 lblMessage.setStyle("-fx-text-fill: red;");
@@ -68,7 +63,21 @@ public class LoginController {
                 return;
             }
 
-            if (!user.getPassword().equals(password)) {
+            // Verificar contraseña: soporta BCrypt (hash) o texto plano en BD
+            String stored = user.getPassword();
+            boolean passwordMatches = false;
+            if (stored != null) {
+                try {
+                    if (stored.startsWith("$2a$") || stored.startsWith("$2b$") || stored.startsWith("$2y$")) {
+                        passwordMatches = PasswordUtils.checkPassword(password, stored);
+                    } else {
+                        passwordMatches = stored.equals(password);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (!passwordMatches) {
                 lblMessage.setStyle("-fx-text-fill: red;");
                 lblMessage.setText("Contraseña incorrecta");
                 return;
@@ -112,6 +121,20 @@ public class LoginController {
         // Diagnostics
         System.out.println("[INIT] LoginController.initialize - userDAO=" + (userDAO != null) + ", imageView=" + (imageView != null));
         if (lblMessage != null) lblMessage.setText("");
+
+        // Aplicar stylesheet global (app.css) cuando la Scene esté disponible
+        try {
+            String css = getClass().getResource("/css/app.css").toExternalForm();
+            if (txtUsername != null) {
+                txtUsername.sceneProperty().addListener((obs, oldScene, newScene) -> {
+                    if (newScene != null) {
+                        if (!newScene.getStylesheets().contains(css)) newScene.getStylesheets().add(css);
+                    }
+                });
+            }
+        } catch (Exception ex) {
+            // ignore if css not found
+        }
     }
 
     private void abrirHomeConUsuario(User user, boolean demo) throws Exception {
@@ -122,5 +145,12 @@ public class LoginController {
         Stage stage = (Stage) txtUsername.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Ares Software - Home" + (demo ? " (demo)" : ""));
+        // maximizar la ventana al entrar al Home
+        try {
+            stage.setMaximized(true);
+            stage.setResizable(true);
+        } catch (Exception ex) {
+            // ignore if not supported
+        }
     }
 }
