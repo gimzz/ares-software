@@ -1,14 +1,13 @@
 package com.aressoftware.test;
 
-import java.util.List;
-
 import com.aressoftware.dao.UserDAO;
 import com.aressoftware.model.security.User;
+
+import java.util.List;
 
 public class TestUserDAO {
 
     public static void main(String[] args) {
-
         System.out.println("===== PRUEBAS UserDAO =====");
 
         UserDAO userDAO = new UserDAO();
@@ -30,39 +29,39 @@ public class TestUserDAO {
             System.out.println("No existe usuario admin");
         }
 
-        // 3. Probar insertar usuario
-        System.out.println("\n→ Probando inserción de usuario...");
-
-        User nuevo = new User();
-        nuevo.setNombre("Tester QA");
-        nuevo.setUsuario("tester");
-        nuevo.setPassword("test123");
-        nuevo.setIdRol(2);
-        nuevo.setEstado("activo");
-
-        boolean creado = userDAO.create(nuevo);
-        System.out.println("Usuario creado?: " + creado);
-
-        // 4. Probar actualización (sólo datos generales, NO password)
-        System.out.println("\n→ Probando updateUserData() del usuario tester...");
+        // 3. Comprobar si existe y si no crear usuario con contraseña en texto plano
         User tester = userDAO.findByUsername("tester");
+        if (tester == null) {
+            User nuevo = new User();
+            nuevo.setNombre("Tester QA");
+            nuevo.setUsuario("tester");
+            nuevo.setPassword("test123"); // CONTRASEÑA EN TEXTO PLANO SIN HASH AQUI
+            nuevo.setIdRol(2);
+            nuevo.setEstado("activo");
+
+            boolean creado = userDAO.create(nuevo);
+            System.out.println("Usuario creado?: " + creado);
+            tester = userDAO.findByUsername("tester");
+        } else {
+            System.out.println("Usuario 'tester' ya existe, usándolo para pruebas.");
+        }
+
+        // 4. Actualizar solo datos generales, no password
         if (tester != null) {
             tester.setNombre("Tester QA Senior");
             tester.setEstado("inactivo");
-            boolean actualizado = userDAO.updateUserData(tester); // ¡no toca el password!
+            boolean actualizado = userDAO.updateUserData(tester);
             System.out.println("Actualizado (datos generales)?: " + actualizado);
         }
 
-        // 5. Probar cambio de estado
+        // 5. Cambiar estado a activo
         if (tester != null) {
-            System.out.println("\n→ Probando cambiar estado...");
             boolean cambio = userDAO.cambiarEstado(tester.getId(), "activo");
             System.out.println("Estado cambiado?: " + cambio);
         }
 
-        // 6. Probar cambio de contraseña
+        // 6. Cambiar contraseña SIN hacer hash aquí (updatePassword ya hace hash)
         if (tester != null) {
-            System.out.println("\n→ Probando cambio de contraseña...");
             boolean cambioPass = userDAO.updatePassword(tester.getId(), "nuevaClave123");
             System.out.println("Contraseña cambiada?: " + cambioPass);
         }
@@ -77,7 +76,7 @@ public class TestUserDAO {
         boolean loginAnterior = userDAO.checkLogin("tester", "test123");
         System.out.println("Login exitoso con contraseña anterior?: " + loginAnterior);
 
-        // 9. Probar login con cualquier contraseña incorrecta
+        // 9. Probar login con contraseña incorrecta (debe fallar)
         System.out.println("\n→ Probando login fallido...");
         boolean loginFallido = userDAO.checkLogin("tester", "contraseñaIncorrecta");
         System.out.println("Login fallido?: " + loginFallido);
