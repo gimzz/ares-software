@@ -14,6 +14,12 @@ public class Roles {
         this.descripcion = new SimpleStringProperty();
     }
 
+    public Roles(int id, String nombre, String descripcion) {
+    this.id = new SimpleIntegerProperty(id);
+    this.nombre = new SimpleStringProperty(nombre);
+    this.descripcion = new SimpleStringProperty(descripcion);
+}
+
     public int getId() {
         return id.get();
     }
