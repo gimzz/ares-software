@@ -12,37 +12,50 @@
 <VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.aressoftware.controller.DashboardController"
-      spacing="16">
+      spacing="20" styleClass="container" alignment="TOP_CENTER">
+
     <padding>
-        <Insets top="16" right="16" bottom="16" left="16" />
+        <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
+
     <children>
-        <HBox spacing="20">
+        <!-- Header de página -->
+        <HBox styleClass="header" alignment="CENTER_LEFT" spacing="12">
+            <padding>
+                <Insets top="10" right="12" bottom="10" left="12"/>
+            </padding>
             <children>
-                <PieChart fx:id="pieChartDashboard" prefWidth="400" prefHeight="250" />
-                <VBox spacing="8">
-                    <children>
-                        <Label text="KPIs" style="-fx-font-size:18px; -fx-font-weight:bold;" />
-                        <HBox spacing="8" alignment="CENTER_LEFT">
-                            <Label text="Usuarios activos:" />
-                            <ProgressBar fx:id="progressUsuarios" progress="0.75" prefWidth="200" />
-                        </HBox>
-                        <HBox spacing="8" alignment="CENTER_LEFT">
-                            <Label text="Carga promedio:" />
-                            <ProgressBar fx:id="progressCarga" progress="0.45" prefWidth="200" />
-                        </HBox>
-                    </children>
+                <Label text="Dashboard general" styleClass="page-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <!-- Botones de acción si los necesitas -->
+                <!-- <Button fx:id="btnRefresh" text="Actualizar" styleClass="btn-primary"/> -->
+            </children>
+        </HBox>
+
+        <!-- KPIs -->
+        <HBox spacing="24">
+            <children>
+                <VBox spacing="10" styleClass="kpi-block">
+                    <Label text="Usuarios activos" styleClass="section-subtitle"/>
+                    <ProgressBar fx:id="progressUsuarios" progress="0.75" prefWidth="240"/>
+                    <Label text="Carga promedio" styleClass="section-subtitle"/>
+                    <ProgressBar fx:id="progressCarga" progress="0.45" prefWidth="240"/>
+                </VBox>
+
+                <VBox spacing="10" styleClass="kpi-block">
+                    <Label text="Estado de usuarios" styleClass="section-subtitle"/>
+                    <PieChart fx:id="pieChartDashboard" prefWidth="400" prefHeight="250"/>
                 </VBox>
             </children>
         </HBox>
 
-        <Label text="Actividad reciente" style="-fx-font-size:16px; -fx-font-weight:bold;" />
-
-        <TableView fx:id="tblActivity" prefHeight="300">
+        <!-- Tabla de actividad -->
+        <Label text="Actividad reciente" styleClass="section-title"/>
+        <TableView fx:id="tblActivity" prefHeight="300" styleClass="table-view">
             <columns>
-                <TableColumn text="Fecha" prefWidth="150" />
-                <TableColumn text="Evento" prefWidth="600" />
-                <TableColumn text="Usuario" prefWidth="200" />
+                <TableColumn fx:id="colFecha" text="Fecha" prefWidth="150"/>
+                <TableColumn fx:id="colEvento" text="Evento" prefWidth="600"/>
+                <TableColumn fx:id="colUsuario" text="Usuario" prefWidth="200"/>
             </columns>
         </TableView>
     </children>

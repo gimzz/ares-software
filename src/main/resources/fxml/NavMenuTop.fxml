@@ -5,22 +5,41 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 
 <HBox xmlns="http://javafx.com/javafx/8.0.171"
-    xmlns:fx="http://javafx.com/fxml/1"
-    spacing="12" alignment="CENTER_LEFT" styleClass="nav">
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="12" alignment="CENTER_LEFT" styleClass="nav-top">
     <padding>
-        <Insets top="8" right="10" bottom="8" left="10" />
+        <Insets top="10" right="12" bottom="10" left="12" />
     </padding>
+
     <children>
-        <Button fx:id="btnDashboardTop" text="Dashboard" mnemonicParsing="false" style="-fx-background-color:#00CCFF; -fx-font-weight:bold;" />
-        <Button fx:id="btnUsuariosTop" text="Usuarios" mnemonicParsing="false" />
-        <MenuButton fx:id="btnAjustesTop" text="Ajustes" mnemonicParsing="false">
+        <!-- Marca -->
+        <HBox spacing="8" alignment="CENTER_LEFT" styleClass="nav-brand">
+            <children>
+                <ImageView fitWidth="28" fitHeight="28" preserveRatio="true" styleClass="brand-icon" />
+                <Label text="Ares Software" styleClass="brand-title" />
+            </children>
+        </HBox>
+
+        <!-- Botones principales -->
+        <Button fx:id="btnDashboardTop" text="Dashboard" mnemonicParsing="false" styleClass="nav-button btn-primary" />
+        <Button fx:id="btnUsuariosTop" text="Usuarios" mnemonicParsing="false" styleClass="nav-button" />
+
+        <!-- Ajustes -->
+        <MenuButton fx:id="btnAjustesTop" text="Ajustes" mnemonicParsing="false" styleClass="nav-button menu-button">
             <items>
+                <!-- IMPORTANTE: usar fx:id -->
                 <MenuItem fx:id="miToggleTop" text="Cambiar menú" />
             </items>
         </MenuButton>
+
+        <!-- Separador flexible -->
         <Region HBox.hgrow="ALWAYS" />
-        <Button fx:id="btnLogoutTop" text="Cerrar sesión" mnemonicParsing="false" style="-fx-background-color:#FF6666; -fx-text-fill:white;" />
+
+        <!-- Logout -->
+        <Button fx:id="btnLogoutTop" text="Cerrar sesión" mnemonicParsing="false" styleClass="nav-button btn-danger" />
     </children>
 </HBox>
