@@ -8,6 +8,7 @@ import com.aressoftware.model.security.Module;
 import com.aressoftware.model.security.RolesPermissions;
 import com.aressoftware.util.PasswordUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AuthService {
@@ -53,11 +54,29 @@ public class AuthService {
         return rolesPermissionsDAO.hasPermission(
                 user.getIdRol(),
                 module.getId(),
-                action
-        );
+                action);
     }
 
     public List<RolesPermissions> getUserPermissions(User user) {
         return rolesPermissionsDAO.findByRole(user.getIdRol());
     }
+
+    public List<Module> getVisibleModules(User user) {
+        List<Module> allModules = moduleDAO.findAll();
+        List<Module> visible = new ArrayList<>();
+
+        for (Module m : allModules) {
+            boolean canSee = rolesPermissionsDAO.hasPermission(
+                    user.getIdRol(),
+                    m.getId(),
+                    "ver");
+
+            if (canSee) {
+                visible.add(m);
+            }
+        }
+
+        return visible;
+    }
+
 }
