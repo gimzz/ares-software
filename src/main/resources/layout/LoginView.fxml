@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.aressoftware.controller.LoginController"
+            prefWidth="900" prefHeight="600"
+            styleClass="login-root">
+
+    <children>
+
+        <!-- CARD -->
+        <VBox fx:id="loginCard"
+              alignment="CENTER"
+              spacing="18"
+              prefWidth="380"
+              styleClass="login-card"
+              AnchorPane.leftAnchor="260"
+              AnchorPane.rightAnchor="260"
+              AnchorPane.topAnchor="80">
+
+            <children>
+
+                <!-- LOGO -->
+                <ImageView fx:id="imageView"
+                           fitWidth="180" fitHeight="180"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@/img/logo.png"/>
+                    </image>
+                </ImageView>
+
+                <!-- TÍTULO -->
+                <Label text="Iniciar Sesión"
+                       styleClass="login-title"/>
+
+                <!-- USER -->
+                <VBox spacing="4">
+                    <Label text="Usuario" styleClass="login-label"/>
+                    <TextField fx:id="txtUsername"
+                               promptText="Ingresa tu usuario"
+                               styleClass="login-field"
+                               prefWidth="260"/>
+                </VBox>
+
+                <!-- PASS -->
+                <VBox spacing="4">
+                    <Label text="Contraseña" styleClass="login-label"/>
+                    <PasswordField fx:id="txtPassword"
+                                   promptText="Ingresa tu contraseña"
+                                   styleClass="login-field"
+                                   prefWidth="260"/>
+                </VBox>
+
+                <!-- MENSAJE ERROR -->
+                <Label fx:id="lblMessage"
+                       text=""
+                       styleClass="login-error"/>
+
+                <!-- BOTÓN -->
+                <Button fx:id="btnLogin"
+                        text="Ingresar"
+                        onAction="#handleLogin"
+                        styleClass="login-button"
+                        prefWidth="260"/>
+
+            </children>
+        </VBox>
+
+    </children>
+</AnchorPane>

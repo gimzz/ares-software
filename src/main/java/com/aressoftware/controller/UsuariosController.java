@@ -38,7 +38,17 @@ public class UsuariosController {
         colUsuario.setCellValueFactory(cell -> cell.getValue().usuarioProperty());
         colRol.setCellValueFactory(cell -> cell.getValue().idRolProperty());
         colEstado.setCellValueFactory(cell -> cell.getValue().estadoProperty());
+        
+        // --- Solución al error FXML y Responsive ---
+        // Configurar la política de redimensionamiento para que las columnas se ajusten al ancho total.
+        tblUsers.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
+        // --- Mejoras Estéticas (Centrado) ---
+        colId.getStyleClass().add("table-cell-center"); 
+        colRol.getStyleClass().add("table-cell-center");
+        // Las propiedades min/max width para el responsive se definen en el FXML
 
+        // Evitar reordenar columnas
         for (TableColumn<?, ?> column : tblUsers.getColumns()) {
             column.setReorderable(false);
         }
@@ -46,7 +56,14 @@ public class UsuariosController {
 
     private void addActionColumn() {
         TableColumn<User, Void> colAction = new TableColumn<>("Acción");
+        
+        // --- Configuración Responsive para la Columna de Acción ---
         colAction.setPrefWidth(120);
+        colAction.setMinWidth(100); 
+        colAction.setMaxWidth(150); 
+
+        // Aplicar clase CSS para centrar los botones
+        colAction.getStyleClass().add("table-cell-center"); 
 
         colAction.setCellFactory(param -> new TableCell<User, Void>() {
             private final Button actionBtn = new Button();
@@ -93,6 +110,7 @@ public class UsuariosController {
             }
         });
 
+        // Asegurar que la columna de acción se añada solo una vez
         boolean exists = tblUsers.getColumns().stream().anyMatch(c -> "Acción".equals(c.getText()));
         if (!exists) tblUsers.getColumns().add(colAction);
     }

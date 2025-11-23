@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.aressoftware.controller.DashboardController"
+      alignment="TOP_CENTER"
+      spacing="24"
+      styleClass="container">
+
+    <padding>
+        <Insets top="25" right="30" bottom="25" left="30"/>
+    </padding>
+
+    <!-- Header del Dashboard -->
+    <HBox alignment="CENTER_LEFT" spacing="16" styleClass="header">
+        <Label text="Dashboard general" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <!-- KPIs -->
+    <HBox spacing="24">
+        <VBox spacing="12" styleClass="kpi-block">
+            <Label text="Usuarios activos" styleClass="section-title"/>
+            <ProgressBar fx:id="progressUsuarios" progress="0.0" prefWidth="260"/>
+            <Label text="Carga promedio" styleClass="section-title"/>
+            <ProgressBar fx:id="progressCarga" progress="0.0" prefWidth="260"/>
+        </VBox>
+
+        <VBox spacing="12" styleClass="kpi-block">
+            <Label text="Estado de usuarios" styleClass="section-title"/>
+            <PieChart fx:id="pieChartDashboard" prefWidth="420" prefHeight="260"/>
+        </VBox>
+    </HBox>
+
+    <!-- Tabla de actividad -->
+    <Label text="Actividad reciente" styleClass="section-title"/>
+
+    <TableView fx:id="tblActivity" prefHeight="350" styleClass="table-view">
+        <columns>
+            <TableColumn fx:id="colFecha" text="Fecha" prefWidth="150"/>
+            <TableColumn fx:id="colEvento" text="Evento" prefWidth="580"/>
+            <TableColumn fx:id="colUsuario" text="Usuario" prefWidth="200"/>
+        </columns>
+    </TableView>
+
+</VBox>

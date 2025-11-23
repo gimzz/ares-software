@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.aressoftware.controller.HeaderController"
+      fx:id="headerRoot"
+      spacing="20"
+      styleClass="header-container"
+      style="-fx-padding: 15 20 15 20;">
+
+    <children>
+        <!-- Label para el saludo -->
+        <Label fx:id="lblTitle"
+               text="Bienvenido"
+               styleClass="header-title"/>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <!-- Botón de logout -->
+        <Button fx:id="btnLogout"
+                text="Cerrar sesión"
+                onAction="#handleLogout"
+                id="btnLogout"/>
+    </children>
+</HBox>

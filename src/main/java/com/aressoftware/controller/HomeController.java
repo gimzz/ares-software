@@ -1,121 +1,139 @@
 package com.aressoftware.controller;
 
+import com.aressoftware.model.security.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import com.aressoftware.model.security.User;
-import com.aressoftware.dao.UserDAO;
+
+// 💡 IMPORTANTE: Necesitas esta importación para definir el margen
+import javafx.geometry.Insets; 
 
 import java.io.IOException;
+import java.net.URL;
 
 public class HomeController {
 
-    @FXML private BorderPane root;
-    @FXML private VBox navContainer;
-    @FXML private VBox headerContainer;
-    @FXML private VBox contentContainer;
+    @FXML private BorderPane rootPane; 
+    @FXML private AnchorPane mainContent; 
 
+    private NavMenuSideController navController;
     private HeaderController headerController;
-    private UserDAO userDAO;
+
+    private User currentUser;
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         try {
-            userDAO = new UserDAO(); // inicializa el DAO una sola vez
-        } catch (Exception e) {
-            System.out.println("[ERROR] No se pudo inicializar UserDAO: " + e.getMessage());
-        }
+            // --- Cargar NavMenuSide ---
+            FXMLLoader navLoader = new FXMLLoader(getClass().getResource("/components/nav/NavMenuSide.fxml"));
+            Parent navContent = navLoader.load();
+            navController = navLoader.getController();
+            
+            // 🎯 SOLUCIÓN: Aplicar margen superior al menú lateral
+            double headerHeight = 2.0; // AJUSTA ESTE VALOR: Altura de tu Header + espacio deseado
+            BorderPane.setMargin(navContent, new Insets(headerHeight, 0, 0, 0));
+            
+            rootPane.setLeft(navContent);
 
-        loadHeader();
-        loadSideMenu();
-        loadView("InicioView.fxml"); // Vista inicial ahora es Inicio
+            // --- Cargar Header ---
+            FXMLLoader headerLoader = new FXMLLoader(getClass().getResource("/components/header/Header.fxml"));
+            Parent headerContent = headerLoader.load();
+            headerController = headerLoader.getController();
+            rootPane.setTop(headerContent);
 
-        // Cargar CSS global cuando la escena esté lista
-        root.sceneProperty().addListener((obs, oldScene, newScene) -> {
-            if (newScene != null) {
-                try {
-                    String css = getClass().getResource("/css/app.css").toExternalForm();
-                    newScene.getStylesheets().add(css);
-                    System.out.println("[INFO] CSS cargado correctamente");
-                } catch (Exception e) {
-                    System.out.println("[WARN] No se pudo cargar app.css");
+            // Configurar eventos
+            navController.setOnMenuSelected(this::onMenuSelected);
+            headerController.setOnLogout(this::cerrarSesion);
+
+            // Cargar vista inicial
+            loadView("/layout/InicioView.fxml");
+
+            // --- Aplicar CSS global cuando la Scene esté lista ---
+            rootPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+                if (newScene != null) {
+                    URL cssUrl = getClass().getResource("/styles/global.css");
+                    if (cssUrl != null && !newScene.getStylesheets().contains(cssUrl.toExternalForm())) {
+                        newScene.getStylesheets().add(cssUrl.toExternalForm());
+                        System.out.println("CSS global cargado correctamente");
+                    }
                 }
-            }
-        });
-    }
+            });
 
-    private void loadHeader() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/HeaderView.fxml"));
-            Node headerNode = loader.load();
-            headerController = loader.getController();
-            headerContainer.getChildren().add(headerNode);
-            headerController.setHomeController(this);
-            headerController.setWelcomeText("Bienvenido al panel de Ares Software");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void loadSideMenu() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/NavMenuSide.fxml"));
-            VBox navMenu = loader.load();
-            NavMenuController navController = loader.getController();
-            navController.setHomeController(this);
-            navContainer.getChildren().setAll(navMenu);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void loadView(String fxml) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxml));
-            Parent view = loader.load();
-
-            // Si es Dashboard, inyecta el DAO y carga datos
-            if ("DashboardView.fxml".equals(fxml)) {
-                DashboardController dashController = loader.getController();
-                dashController.setUserDao(userDAO);
-                dashController.loadData();
-            }
-
-            contentContainer.getChildren().setAll(view);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    // Recibir el usuario loggeado y mostrarlo en el header
     public void setCurrentUser(User user) {
-        if (user != null && headerController != null) {
-            headerController.setWelcomeText("Bienvenido, " + user.getNombre());
+        this.currentUser = user;
+        if (headerController != null && user != null) {
+            // Mostrar saludo con el nombre del usuario
+            headerController.setTitle("Bienvenido, " + user.getNombre()); 
+            // Si tu clase User usa getUsuario(), cámbialo por getUsuario()
         }
     }
 
-    // Método público para logout (llamado desde NavMenuController)
-    public void doLogout() {
+    // Método llamado desde NavMenu
+    private void onMenuSelected(String menu) {
+        if (currentUser == null) return;
+
+        switch (menu) {
+            case "inicio":
+                headerController.setTitle("Bienvenido, " + currentUser.getNombre() + " - Inicio");
+                loadView("/layout/InicioView.fxml");
+                break;
+            case "productos":
+                headerController.setTitle("Bienvenido, " + currentUser.getNombre() + " - Productos");
+                loadView("/layout/ProductosView.fxml");
+                break;
+            case "usuarios":
+                headerController.setTitle("Bienvenido, " + currentUser.getNombre() + " - Usuarios");
+                loadView("/layout/UsuariosView.fxml");
+                break;
+            case "ventas":
+                headerController.setTitle("Bienvenido, " + currentUser.getNombre() + " - Ventas");
+                loadView("/layout/VentasView.fxml");
+                break;
+        }
+    }
+
+    // Cargar una vista en el centro
+    private void loadView(String fxmlPath) {
         try {
-            logoutToLogin();
-        } catch (Exception e) {
+            URL fxmlUrl = getClass().getResource(fxmlPath);
+            if (fxmlUrl == null) throw new IOException("FXML no encontrado: " + fxmlPath);
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent content = loader.load();
+            mainContent.getChildren().setAll(content);
+
+            AnchorPane.setTopAnchor(content, 0.0);
+            AnchorPane.setBottomAnchor(content, 0.0);
+            AnchorPane.setLeftAnchor(content, 0.0);
+            AnchorPane.setRightAnchor(content, 0.0);
+
+        } catch (IOException e) {
+            System.out.println("No se pudo cargar la vista: " + fxmlPath);
             e.printStackTrace();
         }
     }
 
-    private void logoutToLogin() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"));
-        Parent loginRoot = loader.load();
-
-        Stage stage = (Stage) root.getScene().getWindow();
-        stage.setScene(new Scene(loginRoot));
-        stage.setTitle("Ares Software - Login");
-        stage.setWidth(800);
-        stage.setHeight(600);
-        stage.centerOnScreen();
+    // Cerrar sesión y volver al login
+    private void cerrarSesion() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout/LoginView.fxml"));
+            Parent loginRoot = loader.load();
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            Scene scene = new Scene(loginRoot);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

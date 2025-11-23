@@ -1,26 +1,43 @@
 package com.aressoftware.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class HeaderController {
 
-    @FXML private Label lblWelcomeHeader;
-    private HomeController homeController;
 
-    public void setHomeController(HomeController homeController) {
-        this.homeController = homeController;
-    }
+@FXML private Label lblTitle;
+@FXML private Button btnLogout;
 
-    public void setWelcomeText(String text) {
-        if (lblWelcomeHeader != null) lblWelcomeHeader.setText(text);
-    }
+// Interfaz para callback al cerrar sesión
+public interface LogoutListener {
+    void onLogout();
+}
 
-    public void setWelcomeVisible(boolean visible) {
-        if (lblWelcomeHeader != null) lblWelcomeHeader.setVisible(visible);
-    }
+private LogoutListener logoutListener;
 
-    public Label getWelcomeLabel() {
-        return lblWelcomeHeader;
+@FXML
+public void initialize() {
+    // Puedes inicializar aquí si quieres algún efecto o estilo dinámico
+}
+
+public void setTitle(String title) {
+    if (lblTitle != null) {
+        lblTitle.setText(title);
     }
+}
+
+public void setOnLogout(LogoutListener listener) {
+    this.logoutListener = listener;
+}
+
+@FXML
+private void handleLogout() {
+    if (logoutListener != null) {
+        logoutListener.onLogout();
+    }
+}
+
+
 }

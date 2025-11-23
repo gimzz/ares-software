@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Region?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.aressoftware.controller.InicioController"
+      fx:id="inicioRoot"
+      alignment="CENTER"
+      spacing="20"
+      styleClass="inicio-container">
+
+    <children>
+        <Label text="Bienvenido al Sistema MAMAÑEMAAAAAAAAAAAAAAAAAA"
+               styleClass="inicio-title"/>
+        <Label text="Selecciona una opción del menú lateral para comenzar."
+               styleClass="inicio-subtitle"/>
+
+        <HBox spacing="20" alignment="CENTER">
+            <children>
+                <!-- Tarjeta / Panel informativo -->
+                <VBox spacing="5" styleClass="info-card">
+                    <children>
+                        <Label text="Estado del sistema" styleClass="card-title"/>
+                        <Label text="Todo funcionando correctamente." styleClass="card-text"/>
+                    </children>
+                </VBox>
+
+                <!-- Espaciador opcional para futuras tarjetas -->
+                <Region HBox.hgrow="ALWAYS"/>
+            </children>
+        </HBox>
+    </children>
+</VBox>

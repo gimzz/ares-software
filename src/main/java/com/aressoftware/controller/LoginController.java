@@ -138,7 +138,7 @@ public class LoginController {
     }
 
     private void abrirHomeConUsuario(User user, boolean demo) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/HomeView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout/HomeView.fxml"));
         Parent root = loader.load();
         HomeController homeController = loader.getController();
         if (homeController != null) homeController.setCurrentUser(user);

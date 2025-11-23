@@ -1,0 +1,239 @@
+/* ==============================
+    GLOBAL CSS PARA ARES-SOFTWARE
+    ============================== */
+
+/* ------------------------------
+    HEADER
+    ------------------------------ */
+.header-container {
+    -fx-background-color: #2B2D42;
+    -fx-padding: 15 20 15 20;
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 10;
+    -fx-background-radius: 0 0 12 12;
+    -fx-border-radius: 0 0 12 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0.0, 0, 2);
+}
+.header-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+}
+
+#btnLogout {
+    -fx-background-color: #EF233C;
+    -fx-text-fill: white;
+    -fx-padding: 8 15;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+#btnLogout:hover {
+    -fx-background-color: #D90429;
+}
+
+/* ------------------------------
+    NAV MENU (Separación del Header aplicada con Padding Superior)
+    ------------------------------ */
+.nav-container {
+    -fx-background-color: #2B2D42;
+    /* AHORA: Aplicamos padding superior (70px) para separar visualmente el menú del Header. */
+    -fx-padding: 70 20 20 20; 
+    -fx-pref-width: 200px;
+    -fx-min-width: 200px;
+    -fx-alignment: TOP_LEFT;
+    -fx-spacing: 10;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0.0, 0, 2);
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 5 10 15;
+    -fx-background-radius: 8;
+    -fx-max-width: Infinity;
+    -fx-pref-width: Infinity;
+}
+
+.nav-button:hover {
+    -fx-background-color: #3F455A;
+}
+
+.nav-button:pressed {
+    -fx-background-color: #525A70;
+}
+
+/* ------------------------------
+    INICIO VIEW
+    ------------------------------ */
+.inicio-container {
+    -fx-alignment: center;
+    -fx-spacing: 20;
+    -fx-padding: 30;
+}
+
+.inicio-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2B2D42;
+}
+
+.inicio-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #8D99AE;
+}
+
+/* Cards de información */
+.info-card {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 15;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0.0, 0, 2);
+    -fx-min-width: 260px;
+}
+
+.card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2B2D42;
+}
+
+.card-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #8D99AE;
+}
+
+/* ------------------------------
+    BOTONES GENERALES
+    ------------------------------ */
+.button {
+    -fx-background-color: #8D99AE;
+    -fx-text-fill: white;
+    -fx-padding: 8 15;
+    -fx-background-radius: 6;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #6C778C;
+}
+
+/* ------------------------------
+    INPUTS Y FORMULARIOS
+    ------------------------------ */
+.text-field, .password-field {
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #CCC;
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+}
+
+/* ====================================
+    NUEVOS ESTILOS PARA LA TABLA (MÁS LIMPIOS)
+    ==================================== */
+.table-view {
+    /* Fondo limpio y borde sutil alrededor de toda la tabla */
+    -fx-border-color: #DDE1E4;
+    -fx-border-width: 1px;
+    -fx-background-color: #FFFFFF; 
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 0; 
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0.0, 0, 1);
+}
+
+/* Fondo del encabezado de columna */
+.table-view .column-header-background {
+    -fx-background-color: #EDF2F4; 
+    /* AJUSTE: Quitamos padding del background, lo gestionamos en column-header */
+    -fx-padding: 0; 
+}
+
+/* Texto del encabezado de columna */
+.table-view .column-header .label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #2B2D42;
+    /* Centrar texto del encabezado */
+    -fx-alignment: CENTER;
+}
+
+/* Estilo para el header de la columna (HeaderRow) */
+.table-view .column-header {
+    /* Centrar el contenido de la celda de encabezado */
+    -fx-alignment: CENTER;
+    /* AJUSTE: Padding vertical aumentado para que el header se vea más alto */
+    -fx-padding: 10 0 10 0; 
+    -fx-background-color: transparent;
+}
+
+
+/* Las filas de la tabla */
+.table-row-cell {
+    /* 🛑 CORRECCIÓN CLAVE: Define la altura mínima de la fila para evitar el corte */
+    -fx-cell-size: 45px; /* Altura de fila fija, da espacio al texto y botones */
+
+    -fx-border-color: #DDE1E4; 
+    -fx-border-width: 0 0 1 0; 
+    -fx-background-color: transparent;
+}
+
+/* Las celdas individuales dentro de la fila */
+.table-cell {
+    -fx-border-color: #DDE1E4; 
+    -fx-border-width: 0 0 1 0; 
+    /* AJUSTE: Quitamos el padding de la celda, ahora -fx-cell-size controla la altura */
+    -fx-padding: 0; 
+    -fx-background-color: transparent; 
+    -fx-alignment: CENTER; 
+}
+
+
+/* Alineación para contenido centrado (e.g., ID, Rol, Botones de Acción) */
+.table-cell-center {
+    -fx-alignment: CENTER;
+}
+
+/* Eliminar el borde de la última fila */
+.table-row-cell:last-child .table-cell {
+    -fx-border-width: 0 0 0 0;
+}
+
+/* Estilo para el espacio sobrante debajo de las filas (filler) */
+.table-view:row-selection .filler {
+    -fx-background-color: transparent;
+}
+
+
+/* ------------------------------
+    BOTONES DE ACCION EN TABLAS
+    ------------------------------ */
+.table-action-button {
+    -fx-background-radius: 6;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 5 10;
+    -fx-cursor: hand;
+}
+
+.btn-enable {
+    -fx-background-color: #4CAF50; /* Verde */
+}
+
+.btn-enable:hover {
+    -fx-background-color: #388E3C;
+}
+
+.btn-disable {
+    -fx-background-color: #EF233C; /* Rojo */
+}
+
+.btn-disable:hover {
+    -fx-background-color: #D90429;
+}

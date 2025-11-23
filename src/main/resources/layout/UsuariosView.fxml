@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.aressoftware.controller.UsuariosController"
+            fx:id="usuariosRoot"
+            styleClass="main-content-pane">
+
+    <VBox fx:id="contentVBox"
+          spacing="15" 
+          
+
+          AnchorPane.topAnchor="20.0" 
+          AnchorPane.bottomAnchor="20.0" 
+          AnchorPane.leftAnchor="0.0" 
+          AnchorPane.rightAnchor="0.0" 
+          
+         
+          style="-fx-max-width: 900; -fx-alignment: TOP_CENTER; -fx-padding: 0 20 0 20;"> 
+
+        <Label text="Gestión de Usuarios" styleClass="inicio-title"/>
+
+<TableView fx:id="tblUsers" 
+           styleClass="table-view"
+           VBox.vgrow="ALWAYS"> 
+    
+    <columns>
+        <TableColumn fx:id="colId" text="ID" prefWidth="50" minWidth="40" maxWidth="100"/>
+        
+        <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150" minWidth="100" styleClass="table-cell-left"/>
+        
+        <TableColumn fx:id="colUsuario" text="Usuario" prefWidth="150" minWidth="100" styleClass="table-cell-left"/>
+        
+        <TableColumn fx:id="colRol" text="Rol" prefWidth="100" minWidth="60" maxWidth="120"/>
+        <TableColumn fx:id="colEstado" text="Estado" prefWidth="100" minWidth="70"/>
+        </columns>
+    
+</TableView>
+
+    </VBox>
+</AnchorPane>

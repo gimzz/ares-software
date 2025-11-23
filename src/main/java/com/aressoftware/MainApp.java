@@ -11,7 +11,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Cargar la vista LoginView.fxml desde resources/fxml
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/layout/LoginView.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
