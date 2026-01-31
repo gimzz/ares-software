@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.aressoftware.controller.NavMenuController"
+      spacing="20" styleClass="nav"
+      alignment="TOP_CENTER" prefWidth="220" VBox.vgrow="ALWAYS">
+
+    <padding>
+        <Insets top="20" right="10" bottom="20" left="10"/>
+    </padding>
+
+    <!-- Logo -->
+    <ImageView fx:id="imageView" fitHeight="160" fitWidth="160" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@/img/logo.png" />
+        </image>
+    </ImageView>
+
+    <!-- Botones principales -->
+    <Button fx:id="btnInicioSide" text="Inicio" styleClass="btn-primary" maxWidth="Infinity"/>
+    <Button fx:id="btnDashboardSide" text="Dashboard" styleClass="btn-primary" maxWidth="Infinity"/>
+    <Button fx:id="btnUsuariosSide" text="Usuarios" styleClass="btn-primary" maxWidth="Infinity"/>
+    <Button fx:id="btnClientesSide" text="Clientes" styleClass="btn-primary" maxWidth="Infinity"/>
+    <Button fx:id="btnVentasSide" text="Ventas" styleClass="btn-primary" maxWidth="Infinity"/>
+    <Button fx:id="btnInventarioSide" text="Inventario" styleClass="btn-primary" maxWidth="Infinity"/>
+
+    <!-- Separador flexible -->
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <!-- Botón de cerrar sesión -->
+    <Button fx:id="btnLogoutSide" text="Cerrar sesión" styleClass="btn-danger" maxWidth="Infinity"/>
+</VBox>
